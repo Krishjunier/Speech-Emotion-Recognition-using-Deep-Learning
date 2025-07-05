@@ -400,9 +400,6 @@ SOFTWARE.
 ## 📞 Contact & Support
 
 **Author**: Gokul Krishnan YN
-
-- 💼 **LinkedIn**: [LinkedIn Profile](https://linkedin.com/in/gokul-krishnan-yn/)
-- 🐱 **GitHub**: [GitHub Profile](https://github.com/gokul-krishnan-yn)
 - 📧 **Email**: gk5139272@gmail.com
 - 📱 **Phone**: +91 8015727710
 
