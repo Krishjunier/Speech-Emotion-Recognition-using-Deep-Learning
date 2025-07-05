@@ -91,7 +91,7 @@ emotion_app/
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/yourusername/emotion-recognition-app.git
+git clone https://github.com/gokul-krishnan-yn/emotion-recognition-app.git
 cd emotion-recognition-app
 ```
 
@@ -288,7 +288,7 @@ We welcome contributions! Please follow these steps:
 ### Development Setup
 ```bash
 # Clone your fork
-git clone https://github.com/yourusername/emotion-recognition-app.git
+git clone https://github.com/gokul-krishnan-yn/emotion-recognition-app.git
 
 # Create development environment
 python -m venv dev_env
@@ -363,7 +363,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ```
 MIT License
 
-Copyright (c) 2025 Gokul Krishnan
+Copyright (c) 2025 Gokul Krishnan YN
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -390,23 +390,26 @@ SOFTWARE.
 
 - 📊 **Dataset**: [TESS - Toronto Emotional Speech Set](https://tspace.library.utoronto.ca/handle/1807/24487)
 - 🏢 **Organization**: CodeAlpha Machine Learning Internship
-- 🎓 **Inspiration**: Modern emotion recognition research and applications
-- 🌟 **Community**: Open source contributors and ML enthusiasts
+- 🎓 **Institution**: KGiSL Institute of Technology, Computer Science and Engineering
+- 🌟 **Inspiration**: Modern emotion recognition research and applications
+- 🤝 **Community**: Open source contributors and ML enthusiasts
+- 🏆 **Achievement**: Building upon experience from various hackathons and ML competitions
 
 ---
 
 ## 📞 Contact & Support
 
-**Author**: Gokul Krishnan
+**Author**: Gokul Krishnan YN
 
-- 💼 **LinkedIn**: [Your LinkedIn Profile](https://linkedin.com/in/your-profile)
-- 🐱 **GitHub**: [Your GitHub Profile](https://github.com/your-username)
-- 📧 **Email**: your.email@example.com
+- 💼 **LinkedIn**: [LinkedIn Profile](https://linkedin.com/in/gokul-krishnan-yn)
+- 🐱 **GitHub**: [GitHub Profile](https://github.com/gokul-krishnan-yn)
+- 📧 **Email**: gk5139272@gmail.com
+- 📱 **Phone**: +91 8015727710
 
 ### Support
-- 🐛 **Bug Reports**: [Open an issue](https://github.com/yourusername/emotion-recognition-app/issues)
-- 💬 **Discussions**: [GitHub Discussions](https://github.com/yourusername/emotion-recognition-app/discussions)
-- 📚 **Documentation**: [Wiki](https://github.com/yourusername/emotion-recognition-app/wiki)
+- 🐛 **Bug Reports**: [Open an issue](https://github.com/gokul-krishnan-yn/emotion-recognition-app/issues)
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/gokul-krishnan-yn/emotion-recognition-app/discussions)
+- 📚 **Documentation**: [Wiki](https://github.com/gokul-krishnan-yn/emotion-recognition-app/wiki)
 
 ---
 
@@ -414,11 +417,11 @@ SOFTWARE.
 
 If you find this project helpful, please consider giving it a star! ⭐
 
-[![Star History Chart](https://api.star-history.com/svg?repos=yourusername/emotion-recognition-app&type=Date)](https://star-history.com/#yourusername/emotion-recognition-app&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=gokul-krishnan-yn/emotion-recognition-app&type=Date)](https://star-history.com/#gokul-krishnan-yn/emotion-recognition-app&Date)
 
 ---
 
 <div align="center">
   <p>Made with ❤️ for the AI community</p>
-  <p>© 2025 Gokul Krishnan. All rights reserved.</p>
+  <p>© 2025 Gokul Krishnan YN. All rights reserved.</p>
 </div>
