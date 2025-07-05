@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🎙️ Speech Emotion Recognition</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header Section -->
+      <header class="header-section">
+        <h1>🎙️ Speech Emotion Recognition</h1>
+        <p>
+          Upload an audio file to analyze the emotional tone and sentiment
+          expressed in speech
+        </p>
+      </header>
+
+      <!-- Upload Section -->
+      <section class="upload-section">
+        <form
+          id="emotionForm"
+          action="/predict"
+          method="post"
+          enctype="multipart/form-data"
+        >
+          <div class="upload-controls">
+            <div class="file-input-area">
+              <label for="audioFile" class="upload-label"
+                >Choose Audio File</label
+              >
+              <div class="file-input-wrapper">
+                <input
+                  type="file"
+                  id="audioFile"
+                  name="audio"
+                  accept=".wav,.mp3,.m4a,.flac"
+                  required
+                />
+                <div class="file-input-display" id="fileInputDisplay">
+                  <div class="upload-icon">🎵</div>
+                  <div class="upload-text">Drop your audio file here</div>
+                  <div class="upload-subtext">
+                    or click to browse (WAV, MP3, M4A, FLAC)
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <!-- Button Section -->
+      <section class="button-section">
+        <button type="submit" form="emotionForm" class="btn" id="analyzeBtn">
+          <span class="btn-text">🔍 Analyze Emotion</span>
+        </button>
+      </section>
+
+      <!-- Loading Section -->
+      <section class="loading-section hidden" id="loadingSection">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Analyzing your audio... Please wait</div>
+      </section>
+
+      <!-- Results Section -->
+      <section class="results-section" id="resultsSection">
+        {% if prediction %}
+        <div class="result-box">
+          <div class="result-emoji">🎭</div>
+          <div class="result-text">Detected Emotion:</div>
+          <div class="result-emotion">{{ prediction }}</div>
+        </div>
+        {% endif %} {% if error %}
+        <div class="error-box">
+          <div class="error-emoji">⚠️</div>
+          <div class="error-text">{{ error }}</div>
+        </div>
+        {% endif %}
+      </section>
+    </div>
+
+    <script>
+      // Enhanced file input handling
+      const fileInput = document.getElementById("audioFile");
+      const fileInputDisplay = document.getElementById("fileInputDisplay");
+      const form = document.getElementById("emotionForm");
+      const analyzeBtn = document.getElementById("analyzeBtn");
+      const loadingSection = document.getElementById("loadingSection");
+      const resultsSection = document.getElementById("resultsSection");
+
+      // File input change handler
+      fileInput.addEventListener("change", function (e) {
+        const file = e.target.files[0];
+        if (file) {
+          updateFileDisplay(file);
+        }
+      });
+
+      // Drag and drop functionality
+      fileInputDisplay.addEventListener("dragover", function (e) {
+        e.preventDefault();
+        fileInputDisplay.classList.add("drag-over");
+      });
+
+      fileInputDisplay.addEventListener("dragleave", function (e) {
+        e.preventDefault();
+        fileInputDisplay.classList.remove("drag-over");
+      });
+
+      fileInputDisplay.addEventListener("drop", function (e) {
+        e.preventDefault();
+        fileInputDisplay.classList.remove("drag-over");
+
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+          const file = files[0];
+          if (isValidAudioFile(file)) {
+            fileInput.files = files;
+            updateFileDisplay(file);
+          } else {
+            showError("Please select a valid audio file (WAV, MP3, M4A, FLAC)");
+          }
+        }
+      });
+
+      // Form submission handler
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const file = fileInput.files[0];
+        if (!file) {
+          showError("Please select an audio file first");
+          return;
+        }
+
+        if (!isValidAudioFile(file)) {
+          showError("Please select a valid audio file (WAV, MP3, M4A, FLAC)");
+          return;
+        }
+
+        // Show loading state
+        showLoading();
+
+        // Submit form
+        const formData = new FormData(form);
+        fetch("/predict", {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => response.text())
+          .then((html) => {
+            // Parse the response and update the page
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, "text/html");
+            const newResults = doc.getElementById("resultsSection");
+
+            hideLoading();
+
+            if (newResults) {
+              resultsSection.innerHTML = newResults.innerHTML;
+              resultsSection.scrollIntoView({ behavior: "smooth" });
+            }
+          })
+          .catch((error) => {
+            hideLoading();
+            showError(
+              "An error occurred while analyzing the audio. Please try again."
+            );
+            console.error("Error:", error);
+          });
+      });
+
+      // Helper functions
+      function updateFileDisplay(file) {
+        const fileName = file.name;
+        const fileSize = (file.size / 1024 / 1024).toFixed(2);
+
+        fileInputDisplay.innerHTML = `
+                <div class="upload-icon">🎵</div>
+                <div class="upload-text">${fileName}</div>
+                <div class="upload-subtext">${fileSize} MB • Ready to analyze</div>
+            `;
+      }
+
+      function isValidAudioFile(file) {
+        const validTypes = [
+          "audio/wav",
+          "audio/mpeg",
+          "audio/mp4",
+          "audio/flac",
+          "audio/x-wav",
+          "audio/x-flac",
+        ];
+        const validExtensions = [".wav", ".mp3", ".m4a", ".flac"];
+
+        return (
+          validTypes.includes(file.type) ||
+          validExtensions.some((ext) => file.name.toLowerCase().endsWith(ext))
+        );
+      }
+
+      function showLoading() {
+        loadingSection.classList.remove("hidden");
+        analyzeBtn.disabled = true;
+        analyzeBtn.innerHTML = '<span class="btn-text">🔄 Analyzing...</span>';
+
+        // Clear previous results
+        const existingResults = resultsSection.querySelectorAll(
+          ".result-box, .error-box"
+        );
+        existingResults.forEach((result) => result.remove());
+      }
+
+      function hideLoading() {
+        loadingSection.classList.add("hidden");
+        analyzeBtn.disabled = false;
+        analyzeBtn.innerHTML =
+          '<span class="btn-text">🔍 Analyze Emotion</span>';
+      }
+
+      function showError(message) {
+        hideLoading();
+
+        // Clear previous results
+        const existingResults = resultsSection.querySelectorAll(
+          ".result-box, .error-box"
+        );
+        existingResults.forEach((result) => result.remove());
+
+        // Add error message
+        const errorBox = document.createElement("div");
+        errorBox.className = "error-box";
+        errorBox.innerHTML = `
+                <div class="error-emoji">⚠️</div>
+                <div class="error-text">${message}</div>
+            `;
+        resultsSection.appendChild(errorBox);
+      }
+
+      // Reset file input when clicking on the display area
+      fileInputDisplay.addEventListener("click", function () {
+        if (!fileInput.files.length) {
+          fileInput.click();
+        }
+      });
+
+      // Keyboard accessibility
+      fileInputDisplay.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          fileInput.click();
+        }
+      });
+
+      // Make file input display focusable
+      fileInputDisplay.setAttribute("tabindex", "0");
+      fileInputDisplay.setAttribute("role", "button");
+      fileInputDisplay.setAttribute(
+        "aria-label",
+        "Choose audio file for emotion analysis"
+      );
+    </script>
+  </body>
+</html>
